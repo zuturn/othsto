@@ -1,10 +1,9 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-# virtualenv
-venv/
-ENV/
-
+bower.json
+node_modules/*
+bower_components/*
+lib/*
+test/*
+tests/*
 # MAC DS STORE
 *.DS_Store
