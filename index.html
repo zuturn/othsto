@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUTURN LEE - Cyber Neon Edition</title>
+    <style>
+        :root {
+            /* 霓虹核心色值 */
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00c8;
+            --neon-green: #39ff14;
+            --neon-purple: #bc13fe;
+            --bg-dark: #003780; /* 更深的背景色，让霓虹更亮 */
+            --key-bg: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 增加一个非常微弱的径向渐变，模拟灯光环境 */
+            background: radial-gradient(circle at center, var(--bg-dark) 0%, #050505 100%);
+            font-family: "APOSFont", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow: hidden;
+	    -webkit-user-select: none;
+	    cursor: crosshair;
+        }
+
+        .main-viewport {
+            height: 25vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* 键盘容器优化：磨砂玻璃感 + 霓虹边框 */
+        .keyboard-case {
+            width: 90%;
+            max-width: 600px;
+            aspect-ratio: 3.2 / 1.3;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.6%;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6%;
+            position: relative;
+            animation: keyboard-glow 4s ease-in-out infinite;
+        }
+
+        .key-row {
+            display: flex;
+            flex: 1;
+            gap: 0.6%;
+        }
+
+        .key {
+            flex: 1;
+            background: var(--key-bg);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(8px, 1.1vw, 10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            /* 模拟键帽的立体感，底部加入微弱的霓虹反光 */
+            box-shadow: inset 0 -2px 4px rgba(100,100,100,0.6), 0 1px 0 rgba(255,255,255,0.05);
+            text-transform: capitalize;
+            transition: all 0.3s;
+        }
+
+        /* ESC 特殊霓虹绿 */
+        .key.esc {
+            background: rgba(55, 0, 255, 0.1);
+            color: var(--neon-purple);
+            border: 1px solid var(--neon-purple);
+            text-shadow: 0 0 8px var(--neon-purple);
+        }
+
+        .symbol {
+            font-size: 1.1em;
+            margin-bottom: 1px;
+            opacity: 0.9;
+        }
+
+        /* 按键宽度比例保持不变 */
+        .key.backspace { flex: 2; }
+        .key.tab { flex: 1.5; }
+        .key.backslash { flex: 1.5; }
+        .key.caps { flex: 1.75; }
+        .key.enter { flex: 2.25; }
+        .key.shift-l { flex: 2.25; }
+        .key.shift-r { flex: 2.75; }
+        .key.space { flex: 5.5; }
+        .key.bottom-mod { flex: 1.25; font-size: clamp(4px, 1vw, 7px); }
+
+	.key:hover {cursor: pointer;}
+
+        /* 文字样式优化：双色闪烁霓虹 */
+        .text {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            text-align: center;
+        }
+
+        .line1 {
+            font-size: clamp(1.2rem, 4vw, 2.4rem);
+            color: var(--neon-blue);
+            animation: breathe-blue 4s ease-in-out infinite;
+        }
+
+        .line2 {
+            font-size: clamp(0.5rem, 2.5vw, 1.5rem);
+            color: var(--neon-pink);
+            margin-top: 8px;
+            animation: breathe-pink 4s ease-in-out infinite;
+        }
+
+        /* 呼吸动画：模拟灯管电压不稳的微颤感 */
+        @keyframes breathe-blue {
+            0%, 100% {
+                opacity: 0.6;
+                text-shadow: 0 0 5px var(--neon-blue);
+                transform: scale(0.99);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes breathe-pink {
+            0%, 100% {
+                opacity: 0.6;
+                text-shadow: 0 0 5px var(--neon-pink);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
+            }
+        }
+
+        @keyframes keyboard-glow {
+            0%, 100% {
+                border-color: rgba(0, 243, 255, 0.2);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            }
+            50% {
+                border-color: var(--neon-blue);
+                box-shadow: 0 0 25px rgba(0, 243, 255, 0.3), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            }
+        }
+
+        @font-face {
+            font-family: "APOSFont";
+            src: url("fonts/a.ttf") format("truetype");
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-viewport">
+        <div class="keyboard-case">
+            <div class="key-row">
+                <div class="key esc"><span class="symbol">ESC</span>`&nbsp;&nbsp;&nbsp;~</div>
+                <div class="key"><span class="symbol">!</span>1</div><div class="key"><span class="symbol">@</span>2</div><div class="key"><span class="symbol">#</span>3</div><div class="key"><span class="symbol">$</span>4</div>
+                <div class="key"><span class="symbol">%</span>5</div><div class="key"><span class="symbol">^</span>6</div><div class="key"><span class="symbol">&amp;</span>7</div><div class="key"><span class="symbol">*</span>8</div>
+                <div class="key"><span class="symbol">(</span>9</div><div class="key"><span class="symbol">)</span>0</div><div class="key"><span class="symbol">_</span>-</div>
+                <div class="key"><span class="symbol">+</span>=</div><div class="key backspace">DELETE</div>
+            </div>
+            <div class="key-row">
+                <div class="key tab">TAB</div><div class="key">Q</div><div class="key">W</div><div class="key">E</div>
+                <div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div>
+                <div class="key">I</div><div class="key">O</div><div class="key">P</div><div class="key"><span class="symbol">{</span>[</div>
+                <div class="key"><span class="symbol">}</span>]</div><div class="key backslash"><span class="symbol">|</span>\</div>
+            </div>
+            <div class="key-row">
+                <div class="key caps">⇪&nbsp;&nbsp;CAPS</div><div class="key">A</div><div class="key">S</div><div class="key">D</div>
+                <div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div>
+                <div class="key">K</div><div class="key">L</div><div class="key"><span class="symbol">:</span>;</div>
+                <div class="key"><span class="symbol">&quot;</span>'</div><div class="key enter">RETURN</div>
+            </div>
+            <div class="key-row">
+                <div class="key shift-l">⇧&nbsp;&nbsp;SHIFT</div><div class="key">Z</div><div class="key">X</div>
+                <div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div>
+                <div class="key"><span class="symbol">&lt;</span>,</div><div class="key"><span class="symbol">&gt;</span>.</div>
+                <div class="key"><span class="symbol">?</span>/</div><div class="key shift-r">SHIFT</div>
+            </div>
+            <div class="key-row">
+                <div class="key bottom-mod"><span class="symbol">⌃</span>CONTROL</div>
+                <div class="key bottom-mod"><span class="symbol">⌥</span>OPTION</div>
+                <div class="key bottom-mod"><span class="symbol">⌘</span>COMMAND</div>
+                <div class="key space"></div>
+                <div class="key bottom-mod"><span class="symbol">⌘</span>COMMAND</div>
+		<div class="key bottom-mod"><span class="symbol">&nbsp;</span>FN1</div>
+		<div class="key bottom-mod"><span class="symbol">&nbsp;</span>FN2</div>
+                <div class="key bottom-mod"><span class="symbol">⌃</span>CONTROL</div>
+            </div>
+        </div>
+
+        <div class="text-container">
+            <div class="text line1">ZUTURN·LEE</div>
+            <div class="text line2">Being.Human</div>
+        </div>
+    </div>
+
+</body>
+</html>
